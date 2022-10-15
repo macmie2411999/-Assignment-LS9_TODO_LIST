@@ -1,176 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ToDoList</title>
 
-<head>
-  <title>CodePro.vn - CyberSoft.edu.vn</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!--===============================================================================================-->
-  <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-  <!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css" />
-  <!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    />
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-  <!--===============================================================================================-->
-  <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
-  <!--===============================================================================================-->
-
-  <link rel="stylesheet" type="text/css" href="css/main.css" />
-  <!--===============================================================================================-->
-</head>
-
-<body>
-  <div class="container-contact100">
-    <div class="contact100-map" id="google_map" data-map-x="40.722047" data-map-y="-73.986422"
-      data-pin="images/icons/map-marker.png" data-scrollwhell="0" data-draggable="1"></div>
-
-    <div class="contact100-more">
-      <i class="zmdi zmdi-phone-in-talk"></i>
-      (+84) 961.05.10.14
-    </div>
-
-    <div class="wrap-contact100">
-      <div>
-        <img src="images/cybersoft.png" alt="Front End CyberSoft" width="40%" />
-        <span style="padding: 20px"></span>
-        <img src="images/codepro.png" alt="Front End CyberSoft" width="30%" />
-
-        <div style="clear: both"></div>
-        <span class="contact100-form-title"> TÍNH CƯỚC UBER </span>
-        <h2>Vui lòng chọn loại xe:</h2>
-        <ul id="ulist-radio">
-          <li class="type">
-            <input id="uberX" type="radio" name="selector" />
-            <label for="uberX">Uber X</label>
-
-            <div class="check"></div>
-          </li>
-
-          <li class="type">
-            <input id="uberSUV" type="radio" name="selector" />
-            <label for="uberSUV">Uber SUV</label>
-            <div class="check"></div>
-          </li>
-
-          <li class="type">
-            <input id="uberBlack" type="radio" name="selector" />
-            <label for="uberBlack">Uber Black</label>
-            <div class="check"></div>
-          </li>
-        </ul>
+  <body>
+    <div class="card">
+      <div class="card__header">
+        <img src="./img/X2oObC4.png" />
       </div>
-      <div style="clear: both"></div>
-
-      <form class="contact100-form">
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <h2>Nhập vào số KM</h2>
-          <input class="input100 distance-km" type="number" name="name" placeholder="Số KM ..." />
-          <span class="focus-input100"></span>
-        </div>
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <h2>Nhập thời gian chờ</h2>
-          <input class="input100 waiting-time" type="number" name="name" placeholder="Thời gian chờ  ..." />
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-contact100-form-btn">
-          <div class="contact100-form-bgbtn"></div>
-          <button type="button" class="contact100-form-btn checkout-button">TÍNH TIỀN</button>
-        </div>
-        <div class="wrap-contact100-form-btn">
-          <div class="contact100-form-bgbtn"></div>
-
-          <!-- MODAL -->
-          <button type="button" 
-          class="contact100-form-btn modal-button" 
-          data-toggle="modal" 
-          data-target=".modal-target">
-            IN HÓA ĐƠN
-          </button>
-
-          <div class="modal fade modal-target" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title"> Hóa Đơn </h4>
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                </div>
-
-                <div class="modal-body">
-                  <table class="table">
-                    <!-- Head of Table -->
-                    <thead>
-                      <tr>
-                          <th scope="col">Chi Tiết</th>
-                          <th scope="col">Sử Dụng</th>
-                          <th scope="col">Đơn Giá</th>
-                          <th scope="col">Thành Tiền</th>
-                      </tr>
-                    </thead>
-
-                    <!-- Body of Table -->
-                    <tbody id="tblBill" >
-
-                    </tbody>
-                    <!-- Body of Table End -->
-
-                  </table>
-                </div>
-              </div>
-            </div>
+      <!-- <h2>hello!</h2> -->
+      <div class="card__body">
+        <div class="card__content">
+          <div class="card__title">
+            <h2>My Tasks</h2>
+            <p>September 9,2020</p>
           </div>
-          <!-- MODAL END -->
-
+          <div class="card__add">
+            <input
+              id="newTask"
+              type="text"
+              placeholder="Enter an activity..."
+            />
+            <button id="addItem">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div id="notiInput" class="alert-danger" style="display: none"></div>
+          <div class="card__todo">
+            <!-- Uncompleted tasks -->
+            <ul class="todo" id="todo"></ul>
+            <!-- Completed tasks -->
+            <ul class="todo" id="completed"></ul>
+          </div>
         </div>
-      </form>
-
-      <div style="clear: both"></div>
-      <div id="divThanhTien" class="dongia">
-        <h2>
-          Thành tiền:
-          <span id="xuatTien" class="xuatTien"> 12345</span>
-          vnd
-        </h2>
       </div>
     </div>
-  </div>
 
-  <!-- MODAL JS -->
-  <!-- <script>
-    $(document).ready(function(){
-      $(".modal-button").click(function(){
-        $(".modal-target").modal({backdrop: true});
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(function () {
+        $(".toggle-btn").click(function () {
+          $(".filter-btn").toggleClass("open");
+        });
+
+        $(".filter-btn a").click(function () {
+          $(".filter-btn").removeClass("open");
+        });
       });
-    });
-    </script> -->
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-
-  <!--===============================================================================================-->
-  <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-  <!--===============================================================================================-->
-  <script src="vendor/animsition/js/animsition.min.js"></script>
-  <!--===============================================================================================-->
-  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
-  <script src="js/map-custom.js"></script>
-
-  <!-- Add Calculate -->
-  <script src="js/calculate.js"></script>
-  <!--===============================================================================================-->
-</body>
-
+    </script>
+  </body>
 </html>
