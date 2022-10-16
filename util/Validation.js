@@ -2,7 +2,7 @@ var validation = {
     checkNullInput: function (value, errId, name) {
         if (value.trim() === '') {
             document.getElementById(errId).style.display = 'block';
-            document.getElementById(errId).innerHTML = `${name} is not valid!`;
+            document.getElementById(errId).innerHTML = `${name} is Null!`;
             return false;
         }
 
