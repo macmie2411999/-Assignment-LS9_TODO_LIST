@@ -8,8 +8,6 @@ import {
 // Set some global variables
 var valid = true;
 var todoTaskContent = "";
-var todoUncompletedTaskArray = [];
-var todoCompletedTaskArray = [];
 var todoTaskArray = customLocalStorage.getArrayFromLocalStorage("todoTaskArray");
 
 // MAIN PART
@@ -35,7 +33,7 @@ document.querySelector('#addItem').onclick = function () {
     // Create new TodoTask and set the valid standardised input to todoTaskContent
     // Default value for the Status of new TodoTask is "todo" (not yet completed)
     var newTodoTask = new TodoTask(todoTaskContent, "todo");
-    console.log(newTodoTask);
+  
 
     // Add the new Todo Task to Array
     todoTaskArray.push(newTodoTask);
@@ -99,12 +97,7 @@ const deleteTodoTask = (e)=>{
 
     // Get index of element in todoTaskArray
     var indexDel = e.currentTarget.getAttribute("data-index");
-    for (var index = 0; index < todoTaskArray.length; index++) {
-        if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
-            indexDel = index;
-            break; 
-        }
-    }
+    console.log(indexDel + "in delete");
     
     // Delete element in todoTaskArray
     todoTaskArray.splice(indexDel, 1);
@@ -125,13 +118,8 @@ const completeToDo = (e)=>{
 
     // Get index of element in todoTaskArray
     var indexDel = e.currentTarget.getAttribute("data-index");
+    console.log(indexDel + "in switch");
     var newTodoTaskTemp;
-    for (var index = 0; index < todoTaskArray.length; index++) {
-        if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
-            indexDel = index;
-            break; 
-        }
-    }
 
     // Create new element with todoTaskStatus switched from the old one
     if(todoTaskArray[indexDel].todoTaskStatus === "todo"){
@@ -149,7 +137,6 @@ const completeToDo = (e)=>{
     // Render todoTaskArray from the Local Storage every time go to the website
     renderTodoTaskArray(todoTaskArray);
 }
-
 window.completeToDo = completeToDo;
 
 /**
