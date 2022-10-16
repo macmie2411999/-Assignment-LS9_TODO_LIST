@@ -10,12 +10,11 @@ var valid = true;
 var todoTaskContent = "";
 var todoUncompletedTaskArray = [];
 var todoCompletedTaskArray = [];
-todoUncompletedTaskArray = customLocalStorage.getArrayFromLocalStorage("todoUncompletedTaskArray");
-todoCompletedTaskArray = customLocalStorage.getArrayFromLocalStorage("todoCompletedTaskArray");
+var todoTaskArray = customLocalStorage.getArrayFromLocalStorage("todoTaskArray");
 
 // MAIN PART
 // Render todoTaskArray from the Local Storage every time go to the website
-renderAllTodoTask();
+renderTodoTaskArray(todoTaskArray);
 
 // Set event for button Add-Todo-Task
 document.querySelector('#addItem').onclick = function () {
@@ -27,8 +26,8 @@ document.querySelector('#addItem').onclick = function () {
     todoTaskContent = removeVietnameseTones(todoTaskContent);
 
     // Check if input valid (not null nor duplicate)
-    valid = validation.checkNullInput(todoTaskContent, 'message-null-input', "Todo Task Content") &
-        checkDuplicateInput(todoTaskContent, 'message-null-input', todoUncompletedTaskArray);
+    valid = validation.checkNullInput(todoTaskContent, 'message-null-input', "Todo Task Content");
+    valid &= checkDuplicateInput(todoTaskContent, 'message-duplicate-input', todoTaskArray);
     if (!valid) {
         return;
     }
@@ -39,71 +38,186 @@ document.querySelector('#addItem').onclick = function () {
     console.log(newTodoTask);
 
     // Add the new Todo Task to Array
-    todoUncompletedTaskArray.push(newTodoTask);
+    todoTaskArray.push(newTodoTask);
 
     // Save todoTaskArray to the Local Storage
-    customLocalStorage.saveArrayToLocalStorage(todoUncompletedTaskArray, "todoUncompletedTaskArray");
+    customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
 
     // Render todoTaskArray from the Local Storage (after Adding a new Todo Task)
-    renderAllTodoTask();
-}
-
-document.querySelector(".remove").onclick = function (event) {
-    var indexOfTodoTask = event.currentTarget.getAttribute("data-index");
-    var statusOfTodoTask = event.currentTarget.getAttribute("data-status");
-    if (statusOfTodoTask == "todo") {
-        todoUncompletedTaskArray.splice(indexOfTodoTask, 1);
-    } else if (statusOfTodoTask == "completed") {
-        todoCompletedTaskArray.splice(indexOfTodoTask, 1);
-    }
-    renderAllTodoTask();
-}
-
-document.querySelector(".complete").onclick = function (event) {
-    var indexOfTodoTask = event.currentTarget.getAttribute("data-index");
-    var statusOfTodoTask = event.currentTarget.getAttribute("data-status");
-    if (statusOfTodoTask == "todo") {
-        todoUncompletedTaskArray.splice(indexOfTodoTask, 1);
-        todoCompletedTaskArray.push(new TodoTask(statusOfTodoTask, "completed"))
-    } else if (statusOfTodoTask == "completed") {
-        todoCompletedTaskArray.splice(indexOfTodoTask, 1);
-        todoUncompletedTaskArray.push(new TodoTask(statusOfTodoTask, "todo"))
-    }
-    renderAllTodoTask();
+    renderTodoTaskArray(todoTaskArray);
 }
 
 /**
  * This function helps to render todoTaskArray in a certain format
- * @param {*} todoTaskArray Array needs to be rendered
- * @param {*} typeArray Position to be rendered (ID TodoTask)
  */
-function renderTodoTaskArray(todoTaskArray, typeArray) {
-    var contentHTML = "";
+function renderTodoTaskArray(todoTaskArray) {
+    var contentHtmlCompletedTask = "";
+    var contentHtmlUncompletedTask = "";
     for (var index = 0; index < todoTaskArray.length; index++) {
-        contentHTML += `
+        if (todoTaskArray[index].todoTaskStatus === "todo"){
+            contentHtmlUncompletedTask += `
             <li>
-                <span>${todoTaskArray[index].todoTaskContent}</span>
-                <div class="buttons">
-                    <button class="remove" data-index="${index}" data-status="${todoTaskArray[index].todoTaskStatus}">
-                        <i class="fa fa-trash-alt"></i>
-                    </button>
-                    <button class="complete" data-index="${index}"  data-status="${todoTaskArray[index].todoTaskStatus}" >
-                        <i class="far fa-check-circle"></i>
-                        <i class="fas fa-check-circle"></i>
-                    </button>
-                </div>
-            </li>`;
+                    <span>${todoTaskArray[index].todoTaskContent}</span>
+                    <div class="buttons">
+                        <button class="remove" data-index="${index}" onclick="deleteTodoTask(event)">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
+                        <button class="complete" data-index="${index}" onclick="completeToDo(event)" >
+                            <i class="far fa-check-circle"></i>
+                            <i class="fas fa-check-circle"></i>
+                        </button>
+                    </div>
+                </li>
+            `;
+        } else {
+            contentHtmlCompletedTask += `
+            <li>
+                    <span>${todoTaskArray[index].todoTaskContent}</span>
+                    <div class="buttons">
+                        <button class="remove" data-index="${index}" onclick="deleteTodoTask(event)">
+                            <i class="fa fa-trash-alt"></i>
+                        </button>
+                        <button class="complete" data-index="${index}" onclick="completeToDo(event)" >
+                            <i class="far fa-check-circle"></i>
+                            <i class="fas fa-check-circle"></i>
+                        </button>
+                    </div>
+                </li>
+            `;
+        }
+        
     }
-    document.getElementById(typeArray).innerHTML = contentHTML;
+    document.getElementById("todo").innerHTML = contentHtmlUncompletedTask;
+    document.getElementById("completed").innerHTML = contentHtmlCompletedTask;
 }
 
-/**
- * This function helps to render all Todo Task
- */
-function renderAllTodoTask() {
-    renderTodoTaskArray(todoUncompletedTaskArray, "todo");
-    renderTodoTaskArray(todoCompletedTaskArray, "completed");
+const deleteTodoTask = (e)=>{
+    console.log("remove click");
+    var indexDel = e.currentTarget.getAttribute("data-index");
+    for (var index = 0; index < todoTaskArray.length; index++) {
+
+        if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
+            indexDel = index;
+            break; 
+        }
+    }
+    console.log(indexDel);
+    todoTaskArray.splice(indexDel, 1);
+
+    // Save todoTaskArray to the Local Storage
+    customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
+
+    renderTodoTaskArray(todoTaskArray);
 }
+window.deleteTodoTask = deleteTodoTask;
+
+// function deleteTodoTask() {
+//     console.log("remove click");
+//     var indexDel = event.currentTarget.getAttribute("data-index");
+//     for (var index = 0; index < todoTaskArray.length; index++) {
+
+//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
+//             indexDel = index;
+//             break; 
+//         }
+//     }
+//     todoTaskArray.splice(index, 1);
+
+//     // Save todoTaskArray to the Local Storage
+//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
+
+//     renderTodoTaskArray(todoTaskArray);
+// }
+
+// function deleteTodoTask(todoTaskContent) {
+//     console.log("remove click");
+//     var indexDel = -1; 
+//     for (var index = 0; index < todoTaskArray.length; index++) {
+
+//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
+//             indexDel = index;
+//             break; 
+//         }
+//     }
+//     todoTaskArray.splice(index, 1);
+
+//     // Save todoTaskArray to the Local Storage
+//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
+
+//     renderTodoTaskArray(todoTaskArray);
+// }
+
+// document.querySelector(".remove").onclick = function (event) {
+//     console.log("remove click");
+//     var indexDel = event.currentTarget.getAttribute("data-index");
+//     for (var index = 0; index < todoTaskArray.length; index++) {
+
+//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
+//             indexDel = index;
+//             break; 
+//         }
+//     }
+//     todoTaskArray.splice(index, 1);
+
+//     // Save todoTaskArray to the Local Storage
+//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
+
+//     renderTodoTaskArray(todoTaskArray);
+// }
+
+const completeToDo = (e)=>{
+    console.log("complete click");
+    var indexDel = e.currentTarget.getAttribute("data-index");
+    var newTodoTaskTemp;
+    for (var index = 0; index < todoTaskArray.length; index++) {
+
+        if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
+            indexDel = index;
+            break; 
+        }
+    }
+
+    if(todoTaskArray[indexDel].todoTaskStatus === "todo"){
+        newTodoTaskTemp = new TodoTask(todoTaskArray[indexDel].todoTaskContent, "completed");
+    } else{
+        newTodoTaskTemp = new TodoTask(todoTaskArray[indexDel].todoTaskContent, "todo");
+    }
+
+    todoTaskArray.splice(indexDel, 1, newTodoTaskTemp);
+
+    // Save todoTaskArray to the Local Storage
+    customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
+
+    renderTodoTaskArray(todoTaskArray);
+}
+
+window.completeToDo = completeToDo;
+
+// function completeToDo(todoTaskContent) {
+//     console.log("remove click");
+//     var indexDel = -1; 
+//     var newTodoTaskTemp;
+//     for (var index = 0; index < todoTaskArray.length; index++) {
+
+//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
+//             indexDel = index;
+//             break; 
+//         }
+//     }
+
+//     if(todoTaskArray[index].todoTaskStatus === "todo"){
+//         newTodoTaskTemp = new TodoTask(todoTaskArray[index].todoTaskStatus, "completed");
+//     } else{
+//         newTodoTaskTemp = new TodoTask(todoTaskArray[index].todoTaskStatus, "todo");
+//     }
+
+//     todoTaskArray.splice(indexDel, 1, newTodoTaskTemp);
+
+//     // Save todoTaskArray to the Local Storage
+//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
+
+//     renderTodoTaskArray(todoTaskArray);
+// }
 
 /**
  * This function helps to check if the input is duplicate with any elements of an array

@@ -91,133 +91,66 @@ function renderTodoTaskArray(todoTaskArray) {
     document.getElementById("completed").innerHTML = contentHtmlCompletedTask;
 }
 
+/**
+ * This function helps to delete an element of todoTaskArray
+ * @param {*} e 
+ */
 const deleteTodoTask = (e)=>{
-    console.log("remove click");
+
+    // Get index of element in todoTaskArray
     var indexDel = e.currentTarget.getAttribute("data-index");
     for (var index = 0; index < todoTaskArray.length; index++) {
-
         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
             indexDel = index;
             break; 
         }
     }
-    console.log(indexDel);
+    
+    // Delete element in todoTaskArray
     todoTaskArray.splice(indexDel, 1);
 
     // Save todoTaskArray to the Local Storage
     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
 
+    // Render todoTaskArray from the Local Storage every time go to the website
     renderTodoTaskArray(todoTaskArray);
 }
 window.deleteTodoTask = deleteTodoTask;
 
-// function deleteTodoTask() {
-//     console.log("remove click");
-//     var indexDel = event.currentTarget.getAttribute("data-index");
-//     for (var index = 0; index < todoTaskArray.length; index++) {
-
-//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
-//             indexDel = index;
-//             break; 
-//         }
-//     }
-//     todoTaskArray.splice(index, 1);
-
-//     // Save todoTaskArray to the Local Storage
-//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
-
-//     renderTodoTaskArray(todoTaskArray);
-// }
-
-// function deleteTodoTask(todoTaskContent) {
-//     console.log("remove click");
-//     var indexDel = -1; 
-//     for (var index = 0; index < todoTaskArray.length; index++) {
-
-//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
-//             indexDel = index;
-//             break; 
-//         }
-//     }
-//     todoTaskArray.splice(index, 1);
-
-//     // Save todoTaskArray to the Local Storage
-//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
-
-//     renderTodoTaskArray(todoTaskArray);
-// }
-
-// document.querySelector(".remove").onclick = function (event) {
-//     console.log("remove click");
-//     var indexDel = event.currentTarget.getAttribute("data-index");
-//     for (var index = 0; index < todoTaskArray.length; index++) {
-
-//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
-//             indexDel = index;
-//             break; 
-//         }
-//     }
-//     todoTaskArray.splice(index, 1);
-
-//     // Save todoTaskArray to the Local Storage
-//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
-
-//     renderTodoTaskArray(todoTaskArray);
-// }
-
+/**
+ * This function helps to switch todoTaskStatus of an element in todoTaskArray
+ * @param {*} e 
+ */
 const completeToDo = (e)=>{
-    console.log("complete click");
+
+    // Get index of element in todoTaskArray
     var indexDel = e.currentTarget.getAttribute("data-index");
     var newTodoTaskTemp;
     for (var index = 0; index < todoTaskArray.length; index++) {
-
         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
             indexDel = index;
             break; 
         }
     }
 
+    // Create new element with todoTaskStatus switched from the old one
     if(todoTaskArray[indexDel].todoTaskStatus === "todo"){
         newTodoTaskTemp = new TodoTask(todoTaskArray[indexDel].todoTaskContent, "completed");
     } else{
         newTodoTaskTemp = new TodoTask(todoTaskArray[indexDel].todoTaskContent, "todo");
     }
 
+    // Replace the old element with new one in todoTaskArray
     todoTaskArray.splice(indexDel, 1, newTodoTaskTemp);
 
     // Save todoTaskArray to the Local Storage
     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
 
+    // Render todoTaskArray from the Local Storage every time go to the website
     renderTodoTaskArray(todoTaskArray);
 }
 
 window.completeToDo = completeToDo;
-
-// function completeToDo(todoTaskContent) {
-//     console.log("remove click");
-//     var indexDel = -1; 
-//     var newTodoTaskTemp;
-//     for (var index = 0; index < todoTaskArray.length; index++) {
-
-//         if (todoTaskArray[index].todoTaskContent === todoTaskContent) {
-//             indexDel = index;
-//             break; 
-//         }
-//     }
-
-//     if(todoTaskArray[index].todoTaskStatus === "todo"){
-//         newTodoTaskTemp = new TodoTask(todoTaskArray[index].todoTaskStatus, "completed");
-//     } else{
-//         newTodoTaskTemp = new TodoTask(todoTaskArray[index].todoTaskStatus, "todo");
-//     }
-
-//     todoTaskArray.splice(indexDel, 1, newTodoTaskTemp);
-
-//     // Save todoTaskArray to the Local Storage
-//     customLocalStorage.saveArrayToLocalStorage(todoTaskArray, "todoTaskArray");
-
-//     renderTodoTaskArray(todoTaskArray);
-// }
 
 /**
  * This function helps to check if the input is duplicate with any elements of an array
